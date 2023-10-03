@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddrhgafilwd43"]
+[gd_scene load_steps=5 format=3 uid="uid://ddrhgafilwd43"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_6y07l"]
+[ext_resource type="Script" path="res://Scripts/Player/Interact.cs" id="2_k0fju"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d0cb5"]
 
@@ -17,7 +18,18 @@ mesh = SubResource("CapsuleMesh_d0cb5")
 shape = SubResource("ConvexPolygonShape3D_p568h")
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0830407, 0.433659, -0.224591)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0830407, -0.433659, 0.224591)
+fov = 71.8
+
+[node name="Interact" type="Node3D" parent="Head/Camera3D"]
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D/Interact"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 256
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_custom_color = Color(1, 0, 1, 1)
+debug_shape_thickness = 3
+script = ExtResource("2_k0fju")

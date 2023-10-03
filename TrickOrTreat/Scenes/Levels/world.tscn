@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=13 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
+[ext_resource type="Script" path="res://Scripts/Props/Box.cs" id="2_u4bqt"]
+[ext_resource type="PackedScene" uid="uid://b66dcb64m065i" path="res://Scenes/Entities/Interactable.tscn" id="3_gtht8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cyrjk"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -20,6 +22,17 @@ glow_enabled = true
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_kdgj6"]
 data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
 
+[sub_resource type="BoxMesh" id="BoxMesh_hlg4s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xss51"]
+albedo_color = Color(0.584314, 0.360784, 1, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gxboa"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_v2wwh"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
 [node name="World" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -38,5 +51,24 @@ mesh = SubResource("PlaneMesh_fd48x")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_kdgj6")
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("1_nuoas")]
+[node name="Player" parent="." instance=ExtResource("1_nuoas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64071, 0)
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.34285, 0.644256, -0.255539)
+mesh = SubResource("BoxMesh_hlg4s")
+skeleton = NodePath("../Player")
+surface_material_override/0 = SubResource("StandardMaterial3D_xss51")
+script = ExtResource("2_u4bqt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_gxboa")
+
+[node name="Interactable" parent="Box" instance=ExtResource("3_gtht8")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Box/Interactable"]
+shape = SubResource("ConvexPolygonShape3D_v2wwh")
+
+[connection signal="InteractedWith" from="Box/Interactable" to="Box" method="RandomizeColor"]
