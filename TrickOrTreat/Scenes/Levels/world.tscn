@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=10 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
-[ext_resource type="Script" path="res://Scripts/Props/Box.cs" id="2_u4bqt"]
-[ext_resource type="PackedScene" uid="uid://b66dcb64m065i" path="res://Scenes/Entities/Interactable.tscn" id="3_gtht8"]
+[ext_resource type="PackedScene" uid="uid://cicg80kvq45lu" path="res://Scenes/Entities/box.tscn" id="2_6e4j5"]
 [ext_resource type="Texture2D" uid="uid://duaeuvunruwid" path="res://icon.svg" id="4_pvq20"]
 [ext_resource type="Material" uid="uid://b4uk7niyn3opx" path="res://Materials/black.tres" id="5_m16p8"]
 [ext_resource type="Material" uid="uid://dgri3qvtk6vle" path="res://Materials/wood.tres" id="6_shdfa"]
@@ -25,16 +24,7 @@ fog_light_energy = 0.2
 fog_sun_scatter = 0.11
 fog_density = 0.1562
 
-[sub_resource type="BoxMesh" id="BoxMesh_hlg4s"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xss51"]
-albedo_color = Color(0.584314, 0.360784, 1, 1)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gxboa"]
-data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_v2wwh"]
-points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+[sub_resource type="BoxMesh" id="BoxMesh_kvnhj"]
 
 [node name="World" type="Node3D"]
 
@@ -51,22 +41,8 @@ environment = SubResource("Environment_lmyep")
 [node name="Player" parent="." instance=ExtResource("1_nuoas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.093, 2.4, -6.483)
 
-[node name="Box" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.88829, 2.02937, -6.14691)
-mesh = SubResource("BoxMesh_hlg4s")
-skeleton = NodePath("../Player")
-surface_material_override/0 = SubResource("StandardMaterial3D_xss51")
-script = ExtResource("2_u4bqt")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_gxboa")
-
-[node name="Interactable" parent="Box" instance=ExtResource("3_gtht8")]
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Box/Interactable"]
-shape = SubResource("ConvexPolygonShape3D_v2wwh")
+[node name="Phone" parent="." instance=ExtResource("2_6e4j5")]
+transform = Transform3D(0.165, 0, 0, 0, 0.4, 0, 0, 0, 0.25, 1.28829, 3.02937, -8.42191)
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.44436, 2.16863, -3.11847)
@@ -132,4 +108,20 @@ light_color = Color(0.988235, 0.858824, 0.529412, 1)
 light_energy = 3.9
 omni_range = 9.07215
 
-[connection signal="InteractedWith" from="Box/Interactable" to="Box" method="RandomizeColor"]
+[node name="Door" parent="." instance=ExtResource("2_6e4j5")]
+transform = Transform3D(-0.402544, 0, 0.0616289, 0, 2.5, 0, -0.863258, 0, -0.028738, 0.390068, 2.6, -4.73227)
+
+[node name="Table" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.015, 0, 0, 0, 0.91, 0, 0, 0, 2.25, 2.81129, 1.86537, -5.91191)
+mesh = SubResource("BoxMesh_kvnhj")
+skeleton = NodePath("../Phone")
+surface_material_override/0 = ExtResource("6_shdfa")
+
+[node name="Bowl2" parent="." instance=ExtResource("2_6e4j5")]
+transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.83163, 2.38112, -5.90535)
+
+[node name="Bowl" parent="." instance=ExtResource("2_6e4j5")]
+transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -6.62061)
+
+[node name="Bowl3" parent="." instance=ExtResource("2_6e4j5")]
+transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -5.1783)
