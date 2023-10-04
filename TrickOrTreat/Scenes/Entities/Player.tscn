@@ -18,10 +18,10 @@ mesh = SubResource("CapsuleMesh_d0cb5")
 shape = SubResource("ConvexPolygonShape3D_p568h")
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-fov = 71.8
+fov = 60.0
 
 [node name="Interact" type="Node3D" parent="Head/Camera3D"]
 
