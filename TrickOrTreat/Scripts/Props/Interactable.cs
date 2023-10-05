@@ -17,7 +17,6 @@ public partial class Interactable : Node
 
 	public void InteractWith()
 	{
-        GD.Print("emitting interacted signal");
         EmitSignal(SignalName.InteractedWith);
 	}
 }

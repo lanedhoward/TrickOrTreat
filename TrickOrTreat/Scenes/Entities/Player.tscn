@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddrhgafilwd43"]
+[gd_scene load_steps=6 format=3 uid="uid://ddrhgafilwd43"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_6y07l"]
 [ext_resource type="Script" path="res://Scripts/Player/Interact.cs" id="2_k0fju"]
+[ext_resource type="PackedScene" uid="uid://bc1273jwn0u4h" path="res://Scenes/System/hud.tscn" id="3_b8ys3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d0cb5"]
 
@@ -33,3 +34,8 @@ collide_with_bodies = false
 debug_shape_custom_color = Color(1, 0, 1, 1)
 debug_shape_thickness = 3
 script = ExtResource("2_k0fju")
+
+[node name="HUD" parent="." instance=ExtResource("3_b8ys3")]
+
+[connection signal="EndLookingAtInteractable" from="Head/Camera3D/Interact/RayCast3D" to="HUD" method="HideInteractText"]
+[connection signal="StartLookingAtInteractable" from="Head/Camera3D/Interact/RayCast3D" to="HUD" method="ShowInteractText"]
