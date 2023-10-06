@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=11 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
 [ext_resource type="PackedScene" uid="uid://cicg80kvq45lu" path="res://Scenes/Entities/box.tscn" id="2_6e4j5"]
+[ext_resource type="Script" path="res://Scripts/Props/Phone.cs" id="3_wj8ni"]
 [ext_resource type="Texture2D" uid="uid://duaeuvunruwid" path="res://icon.svg" id="4_pvq20"]
 [ext_resource type="Material" uid="uid://b4uk7niyn3opx" path="res://Materials/black.tres" id="5_m16p8"]
 [ext_resource type="Material" uid="uid://dgri3qvtk6vle" path="res://Materials/wood.tres" id="6_shdfa"]
@@ -17,22 +18,34 @@ sky_material = SubResource("ProceduralSkyMaterial_cyrjk")
 background_mode = 2
 sky = SubResource("Sky_m26me")
 tonemap_mode = 2
+tonemap_exposure = 0.58
+tonemap_white = 0.57
+ssao_enabled = true
+ssao_intensity = 4.0
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
 glow_enabled = true
-fog_enabled = true
+glow_bloom = 0.24
 fog_light_color = Color(0.168627, 0.0784314, 0.345098, 1)
 fog_light_energy = 0.2
 fog_sun_scatter = 0.11
 fog_density = 0.1562
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.1982
+volumetric_fog_albedo = Color(0.168627, 0, 0.34902, 1)
+adjustment_enabled = true
+adjustment_contrast = 1.03
 
 [sub_resource type="BoxMesh" id="BoxMesh_kvnhj"]
 
 [node name="World" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-light_energy = 0.1
-light_indirect_energy = 2.53
-light_angular_distance = 50.2
+transform = Transform3D(-0.646574, -0.75064, -0.135948, 0.473156, -0.534405, 0.700382, -0.598386, 0.388524, 0.700702, 0, 2, 0)
+light_color = Color(0.811765, 0.835294, 0.992157, 1)
+light_energy = 0.34
+light_indirect_energy = 1.33
+light_volumetric_fog_energy = 1.082
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -43,6 +56,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.093, 2.4, -6.483)
 
 [node name="Phone" parent="." instance=ExtResource("2_6e4j5")]
 transform = Transform3D(0.165, 0, 0, 0, 0.4, 0, 0, 0, 0.25, 1.28829, 3.02937, -8.42191)
+script = ExtResource("3_wj8ni")
+DialoguePath = "/root/World/Player/HUD/Dialogue"
+Lines = PackedStringArray("whats good shawty", ":3", "we in game")
 
 [node name="Interactable" parent="Phone" index="1"]
 InteractionName = "Answer Phone"
@@ -132,5 +148,9 @@ transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.3
 [node name="Bowl3" parent="." instance=ExtResource("2_6e4j5")]
 transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -5.1783)
 
+[connection signal="InteractedWith" from="Phone/Interactable" to="Phone" method="AnswerPhone"]
+
+[editable path="Player"]
+[editable path="Player/HUD"]
 [editable path="Phone"]
 [editable path="Door"]

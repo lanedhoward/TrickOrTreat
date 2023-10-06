@@ -5,6 +5,7 @@ public partial class Hud : Control
 {
     private Label InteractText;
     private TextureRect Crosshair;
+    private Dialogue Dialogue;
 
     [Export]
     private Texture2D NormalCrosshair;
@@ -19,6 +20,9 @@ public partial class Hud : Control
 
         Crosshair = GetNode<TextureRect>("Crosshair/TextureRect");
         Crosshair.Texture = NormalCrosshair;
+
+        Dialogue = GetNode<Dialogue>("Dialogue");
+        Dialogue.HideDialogue();
     }
 
     public void ShowInteractText(string text)
