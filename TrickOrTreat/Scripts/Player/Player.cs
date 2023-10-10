@@ -22,6 +22,7 @@ public partial class Player : CharacterBody3D
 		Camera = GetNode<Camera3D>("Head/Camera3D");
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+
 	}
 
 	public override void _Input(InputEvent @event)
