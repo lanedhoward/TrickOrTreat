@@ -9,12 +9,15 @@ public partial class Slingshot : Node3D
 
     public int loadedProjectileType = -1;
 
+    public Hud hud;
+
     public override void _Ready()
     {
         base._Ready();
 
         //projectile = ResourceLoader.Load<PackedScene>("res://Scenes/Entities/Projectile.tscn");
         muzzle = GetNode<Node3D>("Muzzle");
+        hud = GetNode<Hud>("../../../HUD");
     }
 
     public override void _Process(double delta)
@@ -32,7 +35,7 @@ public partial class Slingshot : Node3D
             p.shoot = true;
             p.SetProjectileType(loadedProjectileType);
 
-            loadedProjectileType = -1;
+            SetProjectileType(-1);
 
         }
     }
@@ -40,5 +43,6 @@ public partial class Slingshot : Node3D
     public void SetProjectileType(int i)
     {
         loadedProjectileType = i;
+        hud.Slingshot.SetProjectileType(i);
     }
 }

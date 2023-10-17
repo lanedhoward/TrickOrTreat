@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=19 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
 [ext_resource type="PackedScene" uid="uid://cicg80kvq45lu" path="res://Scenes/Entities/box.tscn" id="2_6e4j5"]
@@ -8,6 +8,10 @@
 [ext_resource type="Material" uid="uid://b4uk7niyn3opx" path="res://Materials/black.tres" id="5_m16p8"]
 [ext_resource type="Material" uid="uid://dgri3qvtk6vle" path="res://Materials/wood.tres" id="6_shdfa"]
 [ext_resource type="Texture2D" uid="uid://c07pk7llembso" path="res://Art/Sprites/Wall texture updated.png" id="8_hn4vb"]
+[ext_resource type="PackedScene" uid="uid://b66dcb64m065i" path="res://Scenes/Entities/Interactable.tscn" id="9_htk7c"]
+[ext_resource type="PackedScene" uid="uid://cnhxyoaa1x3cq" path="res://Art/3D models/Candy Bowl model.gltf" id="10_7dd1f"]
+[ext_resource type="PackedScene" uid="uid://60pwqga1gpq" path="res://Art/3D models/rock bowl.gltf" id="11_irqtd"]
+[ext_resource type="PackedScene" uid="uid://cqmncd51h5jlx" path="res://Art/3D models/Broccoli Bowl model.gltf" id="12_3i1qx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cyrjk"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -45,6 +49,9 @@ uv1_world_triplanar = true
 uv2_world_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_kvnhj"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_glknc"]
+radius = 0.347806
 
 [node name="World" type="Node3D"]
 
@@ -152,16 +159,55 @@ mesh = SubResource("BoxMesh_kvnhj")
 skeleton = NodePath("../Phone")
 surface_material_override/0 = ExtResource("6_shdfa")
 
+[node name="CandyBowl" parent="." instance=ExtResource("9_htk7c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81129, 2.2291, -6.62808)
+InteractionName = "Pick up Candy"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CandyBowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.220727, 0)
+shape = SubResource("SphereShape3D_glknc")
+
+[node name="Candy Bowl model" parent="CandyBowl" instance=ExtResource("10_7dd1f")]
+transform = Transform3D(0.424824, 0, 0, 0, 0.424824, 0, 0, 0, 0.424824, 0, 0, 0)
+
+[node name="RockBowl" parent="." instance=ExtResource("9_htk7c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81129, 2.2291, -5.16627)
+InteractionName = "Pick up Rock"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RockBowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.220727, 0)
+shape = SubResource("SphereShape3D_glknc")
+
+[node name="rock bowl" parent="RockBowl" instance=ExtResource("11_irqtd")]
+transform = Transform3D(0.442088, 0, 0, 0, 0.442088, 0, 0, 0, 0.442088, 0, 0, 0)
+
+[node name="BroccoliBowl" parent="." instance=ExtResource("9_htk7c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.96261, 2.2291, -5.91191)
+InteractionName = "Pick up Broccoli"
+
+[node name="Broccoli Bowl model" parent="BroccoliBowl" instance=ExtResource("12_3i1qx")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BroccoliBowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.220727, 0)
+shape = SubResource("SphereShape3D_glknc")
+
 [node name="Bowl2" parent="." instance=ExtResource("2_6e4j5")]
 transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.83163, 2.38112, -5.90535)
+visible = false
 
 [node name="Bowl" parent="." instance=ExtResource("2_6e4j5")]
 transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -6.62061)
+visible = false
 
 [node name="Bowl3" parent="." instance=ExtResource("2_6e4j5")]
 transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -5.1783)
+visible = false
 
 [connection signal="InteractedWith" from="Phone/Interactable" to="Phone" method="AnswerPhone"]
+[connection signal="InteractedWith" from="CandyBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [0]]
+[connection signal="InteractedWith" from="RockBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [2]]
+[connection signal="InteractedWith" from="BroccoliBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [1]]
 [connection signal="InteractedWith" from="Bowl2/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [1]]
 [connection signal="InteractedWith" from="Bowl/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [0]]
 [connection signal="InteractedWith" from="Bowl3/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [2]]

@@ -6,6 +6,7 @@ public partial class Hud : Control
     private Label InteractText;
     private TextureRect Crosshair;
     private Dialogue Dialogue;
+    public SlingshotHud Slingshot;
 
     [Export]
     private Texture2D NormalCrosshair;
@@ -23,6 +24,9 @@ public partial class Hud : Control
 
         Dialogue = GetNode<Dialogue>("Dialogue");
         Dialogue.HideDialogue();
+
+        Slingshot = GetNode<SlingshotHud>("Slingshot");
+        Slingshot.SetProjectileType(-1);
     }
 
     public void ShowInteractText(string text)

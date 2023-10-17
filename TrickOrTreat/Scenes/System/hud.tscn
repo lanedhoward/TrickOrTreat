@@ -1,13 +1,31 @@
-[gd_scene load_steps=9 format=3 uid="uid://bc1273jwn0u4h"]
+[gd_scene load_steps=14 format=3 uid="uid://bc1273jwn0u4h"]
 
 [ext_resource type="Script" path="res://Scripts/System/Hud.cs" id="1_e0d4v"]
 [ext_resource type="Texture2D" uid="uid://b2nk8fd6ct3ko" path="res://Art/Sprites/Old/particles10.png" id="1_ure0f"]
 [ext_resource type="Theme" uid="uid://b7qivivddupju" path="res://Materials/theme.tres" id="2_5lsa4"]
 [ext_resource type="Texture2D" uid="uid://cu2vnxttuac1m" path="res://Art/Sprites/Old/particles9.png" id="3_l1dgi"]
 [ext_resource type="LabelSettings" uid="uid://cu7vyluejocnx" path="res://Materials/label.tres" id="3_ll08o"]
+[ext_resource type="Script" path="res://Scripts/System/SlingshotHud.cs" id="6_ecpmr"]
 [ext_resource type="Script" path="res://Scripts/System/Dialogue.cs" id="6_sa5uk"]
 [ext_resource type="Script" path="res://addons/dialogue_label/src/DialogueLabel.gd" id="7_73noh"]
 [ext_resource type="AudioStream" uid="uid://coujxi27ynq12" path="res://examples/dialogue_label/click1.wav" id="8_a22mn"]
+[ext_resource type="Texture2D" uid="uid://c7abs8vb2hf0f" path="res://Art/Sprites/Slingshot idle.png" id="9_g2k3y"]
+[ext_resource type="SpriteFrames" uid="uid://ck0wygxe8cb3v" path="res://Scenes/Entities/projectileSpriteFrames.tres" id="9_o4jtg"]
+[ext_resource type="Texture2D" uid="uid://bep0l8htnk1nk" path="res://Art/Sprites/Slingshot pulled back.png" id="10_6y8or"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_74eh8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_g2k3y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6y8or")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -65,7 +83,34 @@ text = "Interact"
 label_settings = ExtResource("3_ll08o")
 horizontal_alignment = 1
 
+[node name="Slingshot" type="Control" parent="."]
+z_index = -20
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -480.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("6_ecpmr")
+
+[node name="SlingshotSprite" type="AnimatedSprite2D" parent="Slingshot"]
+position = Vector2(240, 240)
+scale = Vector2(7.5, 7.5)
+sprite_frames = SubResource("SpriteFrames_74eh8")
+frame = 1
+
+[node name="ProjectileSprite" type="AnimatedSprite2D" parent="Slingshot"]
+position = Vector2(240, 390)
+scale = Vector2(7.5, 7.5)
+sprite_frames = ExtResource("9_o4jtg")
+
 [node name="Dialogue" type="Control" parent="."]
+z_index = 20
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
