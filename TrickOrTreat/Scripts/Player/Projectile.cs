@@ -9,10 +9,15 @@ public partial class Projectile : RigidBody3D
 
     public bool shoot;
 
+    public int projectileType;
+
+    public AnimatedSprite3D sprite;
+
     public override void _Ready()
     {
         base._Ready();
         TopLevel = true;
+        sprite = GetNode<AnimatedSprite3D>("Sprite");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -29,12 +34,28 @@ public partial class Projectile : RigidBody3D
     public void Collide(Node3D body)
     {
         // do collision sh*t
+        GD.Print("collided");
+        if (body is Character c)
+        {
 
-        //QueueFree();
+            GD.Print("hit character");
+            c.GetHitWith(projectileType);
+
+
+            QueueFree();
+        }
+
     }
 
     public void OnTimerTimeout()
     {
         QueueFree();
+    }
+
+    public void SetProjectileType(int i)
+    {
+        
+        projectileType = i;
+        sprite.Frame = projectileType;
     }
 }

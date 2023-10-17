@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=14 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
 [ext_resource type="PackedScene" uid="uid://cicg80kvq45lu" path="res://Scenes/Entities/box.tscn" id="2_6e4j5"]
 [ext_resource type="Script" path="res://Scripts/Props/Phone.cs" id="3_wj8ni"]
 [ext_resource type="Texture2D" uid="uid://duaeuvunruwid" path="res://icon.svg" id="4_pvq20"]
+[ext_resource type="PackedScene" uid="uid://bsxusna766uct" path="res://Scenes/Entities/Character.tscn" id="5_186m7"]
 [ext_resource type="Material" uid="uid://b4uk7niyn3opx" path="res://Materials/black.tres" id="5_m16p8"]
 [ext_resource type="Material" uid="uid://dgri3qvtk6vle" path="res://Materials/wood.tres" id="6_shdfa"]
+[ext_resource type="Texture2D" uid="uid://c07pk7llembso" path="res://Art/Sprites/Wall texture updated.png" id="8_hn4vb"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cyrjk"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,6 +38,12 @@ volumetric_fog_albedo = Color(0.168627, 0, 0.34902, 1)
 adjustment_enabled = true
 adjustment_contrast = 1.03
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2lnm"]
+albedo_texture = ExtResource("8_hn4vb")
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_world_triplanar = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_kvnhj"]
 
 [node name="World" type="Node3D"]
@@ -65,8 +73,12 @@ InteractionName = "Answer Phone"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.44436, 2.16863, -3.11847)
+visible = false
 billboard = 2
 texture = ExtResource("4_pvq20")
+
+[node name="Character" parent="." instance=ExtResource("5_186m7")]
+transform = Transform3D(2.8875, 0, 0, 0, 2.8875, 0, 0, 0, 2.8875, 1.44436, 1.36863, -3.11847)
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 snap = 0.1
@@ -104,6 +116,7 @@ material = ExtResource("6_shdfa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.15)
 operation = 2
 size = Vector3(4, 8, 4)
+material = SubResource("StandardMaterial3D_y2lnm")
 
 [node name="DoorHole" type="CSGBox3D" parent="CSGCombiner3D/House"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.75, 4)
@@ -149,8 +162,14 @@ transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.3
 transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -5.1783)
 
 [connection signal="InteractedWith" from="Phone/Interactable" to="Phone" method="AnswerPhone"]
+[connection signal="InteractedWith" from="Bowl2/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [1]]
+[connection signal="InteractedWith" from="Bowl/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [0]]
+[connection signal="InteractedWith" from="Bowl3/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [2]]
 
 [editable path="Player"]
 [editable path="Player/HUD"]
 [editable path="Phone"]
 [editable path="Door"]
+[editable path="Bowl2"]
+[editable path="Bowl"]
+[editable path="Bowl3"]

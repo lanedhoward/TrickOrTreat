@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://bsxusna766uct"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Character.cs" id="1_baumg"]
+[ext_resource type="Texture2D" uid="uid://cqtblfrnx3k0g" path="res://Art/Sprites/Character sprite/zombie_kid-sheet.png" id="1_ddq15"]
+[ext_resource type="Texture2D" uid="uid://qplyy3icduyq" path="res://Art/Sprites/Character sprite/zombie-sheet.png" id="2_2pse0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlkmv"]
+atlas = ExtResource("1_ddq15")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyew8"]
+atlas = ExtResource("1_ddq15")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5eyn"]
+atlas = ExtResource("1_ddq15")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_guq3l"]
+atlas = ExtResource("1_ddq15")
+region = Rect2(256, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grhh6"]
+atlas = ExtResource("2_2pse0")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_251ve"]
+atlas = ExtResource("2_2pse0")
+region = Rect2(128, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6lg4"]
+atlas = ExtResource("2_2pse0")
+region = Rect2(192, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_117qv"]
+atlas = ExtResource("2_2pse0")
+region = Rect2(64, 0, 64, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6dhy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlkmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uyew8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5eyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_guq3l")
+}],
+"loop": true,
+"name": &"zombieKid",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grhh6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_251ve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6lg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_117qv")
+}],
+"loop": true,
+"name": &"zombieMonster",
+"speed": 0.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_igqeb"]
+radius = 0.389842
+height = 1.39595
+
+[node name="Character" type="Area3D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_baumg")
+
+[node name="Sprite" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_m6dhy")
+animation = &"zombieKid"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.678, 0, 0, 0, 0.678, 0, 0, 0, 0.678, 0, 0.418474, 0)
+shape = SubResource("CapsuleShape3D_igqeb")
