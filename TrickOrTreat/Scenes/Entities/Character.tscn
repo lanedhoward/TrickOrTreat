@@ -1,8 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://bsxusna766uct"]
+[gd_scene load_steps=18 format=3 uid="uid://bsxusna766uct"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Character.cs" id="1_baumg"]
 [ext_resource type="Texture2D" uid="uid://cqtblfrnx3k0g" path="res://Art/Sprites/Character sprite/zombie_kid-sheet.png" id="1_ddq15"]
 [ext_resource type="Texture2D" uid="uid://qplyy3icduyq" path="res://Art/Sprites/Character sprite/zombie-sheet.png" id="2_2pse0"]
+[ext_resource type="Texture2D" uid="uid://b54xnqolxewg1" path="res://Art/Sprites/Character sprite/parent-sheet.png" id="2_hhyqn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dgwh"]
+atlas = ExtResource("2_hhyqn")
+region = Rect2(0, 0, 80, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt6it"]
+atlas = ExtResource("2_hhyqn")
+region = Rect2(160, 0, 80, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1qn5"]
+atlas = ExtResource("2_hhyqn")
+region = Rect2(80, 0, 80, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlkmv"]
 atlas = ExtResource("1_ddq15")
@@ -24,6 +37,10 @@ region = Rect2(256, 0, 64, 80)
 atlas = ExtResource("2_2pse0")
 region = Rect2(0, 0, 64, 80)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_117qv"]
+atlas = ExtResource("2_2pse0")
+region = Rect2(64, 0, 64, 80)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_251ve"]
 atlas = ExtResource("2_2pse0")
 region = Rect2(128, 0, 64, 80)
@@ -32,12 +49,25 @@ region = Rect2(128, 0, 64, 80)
 atlas = ExtResource("2_2pse0")
 region = Rect2(192, 0, 64, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_117qv"]
-atlas = ExtResource("2_2pse0")
-region = Rect2(64, 0, 64, 80)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_m6dhy"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8dgwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt6it")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1qn5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt6it")
+}],
+"loop": true,
+"name": &"parent",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qlkmv")
@@ -60,13 +90,13 @@ animations = [{
 "texture": SubResource("AtlasTexture_grhh6")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_117qv")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_251ve")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i6lg4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_117qv")
 }],
 "loop": true,
 "name": &"zombieMonster",
@@ -88,6 +118,13 @@ billboard = 2
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_m6dhy")
 animation = &"zombieKid"
+
+[node name="ParentSprite" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1.2753, 0, 0, 0, 1.2753, 0, 0, 0, 1.2753, -0.209591, 0.570042, -0.377746)
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_m6dhy")
+animation = &"parent"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.678, 0, 0, 0, 0.678, 0, 0, 0, 0.678, 0, 0.418474, 0)

@@ -6,7 +6,7 @@ public partial class Player : CharacterBody3D
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
 
-	public float Sensitivity = 0.005f;
+	public float Sensitivity = 0.003f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
@@ -39,8 +39,16 @@ public partial class Player : CharacterBody3D
 			cameraRotation.X = Mathf.Clamp(cameraRotation.X, Mathf.DegToRad(-80f), Mathf.DegToRad(80f));
 			Camera.Rotation = cameraRotation;
 		}
-	}
 
+		if (@event is InputEventKey key)
+		{
+			if (key.IsAction("Exit"))
+			{
+				GetTree().Quit();
+			}
+		}
+	}
+	/*
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
@@ -71,4 +79,5 @@ public partial class Player : CharacterBody3D
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+	*/
 }
