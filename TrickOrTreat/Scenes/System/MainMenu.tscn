@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://tp2ajl6yapnq"]
+
+[ext_resource type="Script" path="res://Scripts/System/MainMenu.cs" id="1_17f74"]
+[ext_resource type="Texture2D" uid="uid://bjvdg5aqqey1" path="res://Art/Sprites/Title/title art.png" id="1_hkmwi"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_17f74")
+ScenePath = "res://Scenes/Levels/world.tscn"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleArt" type="Sprite2D" parent="."]
+position = Vector2(960, 378)
+scale = Vector2(7.02, 7.02)
+texture = ExtResource("1_hkmwi")
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -297.0
+offset_right = 200.0
+offset_bottom = -197.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "START GAME"
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -165.0
+offset_right = 200.0
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "EXIT GAME"
+
+[connection signal="pressed" from="StartButton" to="." method="StartGame"]
+[connection signal="pressed" from="ExitButton" to="." method="ExitGame"]

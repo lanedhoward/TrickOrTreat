@@ -11,8 +11,10 @@ public partial class GameManager : Node3D
     [Export]
     public Label scoreLabel;
 
+    //[Export]
+    //public PackedScene summaryScene;
     [Export]
-    public PackedScene summaryScene;
+    public string ScenePath;
 
     public int score;
     public int strikes;
@@ -25,6 +27,9 @@ public partial class GameManager : Node3D
         OnDoorClosed();
 
         UpdateScoreLabel();
+
+        Score.results = "";
+        Score.value = 0;
     }
 
 
@@ -53,6 +58,9 @@ public partial class GameManager : Node3D
     public void OnWrongProjectile()
     {
         strikes += 1;
+
+        Score.results += character.FailureText + "\n";
+
         UpdateScoreLabel();
     }
 
@@ -72,7 +80,8 @@ STRIKES: {strikesText}";
 
         if (strikes >= 3)
         {
-            GetTree().ChangeSceneToPacked(summaryScene);        
+            //GetTree().ChangeSceneToPacked(summaryScene);
+            GetTree().ChangeSceneToFile(ScenePath);
         }
     }
 }

@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://clhos5bvt7k4n"]
+
+[ext_resource type="Script" path="res://Scripts/System/MainMenu.cs" id="1_evu7b"]
+[ext_resource type="Texture2D" uid="uid://bjvdg5aqqey1" path="res://Art/Sprites/Title/title art.png" id="3_8rbi2"]
+[ext_resource type="LabelSettings" uid="uid://cu7vyluejocnx" path="res://Materials/label.tres" id="4_ckklf"]
+[ext_resource type="Script" path="res://Scripts/System/Summary.cs" id="4_fllhq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_768oo"]
+font_size = 96
+outline_size = 10
+outline_color = Color(1, 0, 0, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_evu7b")
+ScenePath = "res://Scenes/System/MainMenu.tscn"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleArt" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 378)
+scale = Vector2(7.02, 7.02)
+texture = ExtResource("3_8rbi2")
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -297.0
+offset_right = 200.0
+offset_bottom = -197.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "RESTART GAME"
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -165.0
+offset_right = 200.0
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "EXIT GAME"
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("resultsLabel")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -563.0
+offset_right = 563.0
+offset_bottom = 270.0
+grow_horizontal = 2
+text = "GAME OVER!!!!
+SCORE: 40000000000000"
+label_settings = SubResource("LabelSettings_768oo")
+horizontal_alignment = 1
+script = ExtResource("4_fllhq")
+resultsLabel = NodePath("Label")
+
+[node name="Label" type="Label" parent="Label"]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 324.0
+offset_right = 861.0
+offset_bottom = 724.0
+text = "You got
+-owned
+-rekt
+-destoryed
+you suck"
+label_settings = ExtResource("4_ckklf")
+
+[connection signal="pressed" from="StartButton" to="." method="StartGame"]
+[connection signal="pressed" from="ExitButton" to="." method="ExitGame"]

@@ -13,6 +13,8 @@ public partial class Character : Area3D
     public string DialogueText;
     public string DialogueName;
 
+    public string FailureText;
+
     [Signal]
     public delegate void CorrectProjectileUsedEventHandler();
 
@@ -36,6 +38,8 @@ public partial class Character : Area3D
 
     public void GetHitWith(int projectileType)
     {
+        if (interacted) return;
+
         GD.Print($"get hit with {projectileType}");
 
         if (projectileType == correctProjectileType)
@@ -66,6 +70,7 @@ public partial class Character : Area3D
                 parentSprite.Visible = false;
                 DialogueName = "KID";
                 DialogueText = "trick or treat!!!!!!!";
+                FailureText = "-Your house egged by a small child";
                 break;
             case Characters.KidWithParent:
                 sprite.Animation = "zombieKid";
@@ -74,6 +79,7 @@ public partial class Character : Area3D
                 parentSprite.Frame = 0;
                 DialogueName = "KID";
                 DialogueText = "candy, please !!!!";
+                FailureText = "-Sued by a litigious parent";
                 break;
             case Characters.Zombie:
                 sprite.Animation = "zombieMonster";
@@ -81,6 +87,7 @@ public partial class Character : Area3D
                 parentSprite.Visible = false;
                 DialogueName = "ZOMBIE";
                 DialogueText = "arrrrrgg groan grrrr Brainnssssss";
+                FailureText = "-Mauled by zombies";
                 break;
 
         }
