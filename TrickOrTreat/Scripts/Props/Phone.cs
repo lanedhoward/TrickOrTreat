@@ -10,6 +10,9 @@ public partial class Phone : MeshInstance3D
     [Export]
     public string[] Lines;
 
+    [Export]
+    public string[] Names;
+
     private int index = 0;
 
     public override void _Ready()
@@ -20,7 +23,7 @@ public partial class Phone : MeshInstance3D
 
     public void AnswerPhone()
     {
-        dialogue.ShowDialogue("LANE <3", Lines[index]);
+        dialogue.ShowDialogue(Names[index], Lines[index]);
 
         index++;
         if (index >= Lines.Length)

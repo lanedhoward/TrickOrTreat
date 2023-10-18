@@ -25,11 +25,12 @@ public partial class Dialogue : Control
         name.Text = speaker;
         //dialogue.Set("messages", new string[1] { message });
         EmitSignal(SignalName.StartDialogue, message);
+        DelayHideDialogue();
     }
 
     public void DelayHideDialogue()
     {
-        timer = 2;
+        timer = 3;
     }
 
     public void HideDialogue()

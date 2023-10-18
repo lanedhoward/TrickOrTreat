@@ -1,14 +1,16 @@
-[gd_scene load_steps=19 format=3 uid="uid://beo05h4syc3v3"]
+[gd_scene load_steps=26 format=3 uid="uid://beo05h4syc3v3"]
 
 [ext_resource type="PackedScene" uid="uid://ddrhgafilwd43" path="res://Scenes/Entities/Player.tscn" id="1_nuoas"]
 [ext_resource type="PackedScene" uid="uid://cicg80kvq45lu" path="res://Scenes/Entities/box.tscn" id="2_6e4j5"]
 [ext_resource type="Script" path="res://Scripts/Props/Phone.cs" id="3_wj8ni"]
 [ext_resource type="Texture2D" uid="uid://duaeuvunruwid" path="res://icon.svg" id="4_pvq20"]
 [ext_resource type="PackedScene" uid="uid://bsxusna766uct" path="res://Scenes/Entities/Character.tscn" id="5_186m7"]
+[ext_resource type="Script" path="res://Scripts/System/GameManager.cs" id="5_cje0e"]
 [ext_resource type="Material" uid="uid://b4uk7niyn3opx" path="res://Materials/black.tres" id="5_m16p8"]
 [ext_resource type="Material" uid="uid://dgri3qvtk6vle" path="res://Materials/wood.tres" id="6_shdfa"]
 [ext_resource type="Texture2D" uid="uid://c07pk7llembso" path="res://Art/Sprites/Wall texture updated.png" id="8_hn4vb"]
 [ext_resource type="PackedScene" uid="uid://b66dcb64m065i" path="res://Scenes/Entities/Interactable.tscn" id="9_htk7c"]
+[ext_resource type="Script" path="res://Scripts/Props/Door.cs" id="9_lbeer"]
 [ext_resource type="PackedScene" uid="uid://cnhxyoaa1x3cq" path="res://Art/3D models/Candy Bowl model.gltf" id="10_7dd1f"]
 [ext_resource type="PackedScene" uid="uid://60pwqga1gpq" path="res://Art/3D models/rock bowl.gltf" id="11_irqtd"]
 [ext_resource type="PackedScene" uid="uid://cqmncd51h5jlx" path="res://Art/3D models/Broccoli Bowl model.gltf" id="12_3i1qx"]
@@ -44,9 +46,51 @@ adjustment_contrast = 1.03
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2lnm"]
 albedo_texture = ExtResource("8_hn4vb")
+uv1_offset = Vector3(0.26, 0, 0)
 uv1_triplanar = true
 uv1_world_triplanar = true
 uv2_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_u2qfm"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_avunb"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[sub_resource type="Animation" id="Animation_uewrk"]
+resource_name = "door_open"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.66853, -0.25, 0, 0.25, 0, 0.26529, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_27dma"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-1.66853, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_85lvj"]
+_data = {
+"RESET": SubResource("Animation_27dma"),
+"door_open": SubResource("Animation_uewrk")
+}
 
 [sub_resource type="BoxMesh" id="BoxMesh_kvnhj"]
 
@@ -73,7 +117,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.093, 2.4, -6.483)
 transform = Transform3D(0.165, 0, 0, 0, 0.4, 0, 0, 0, 0.25, 1.28829, 3.02937, -8.42191)
 script = ExtResource("3_wj8ni")
 DialoguePath = "/root/World/Player/HUD/Dialogue"
-Lines = PackedStringArray("whats good shawty", ":3", "we in game")
+Lines = PackedStringArray("thanks for passing out candy to the trick or treaters!", "we really appreciate it", "just pick up a candy and sling shot it at the kids", "but if their parents are there, give em something healthy!", "and if anyone weird shows up... just throw a rock at em i guess?")
+Names = PackedStringArray("ASTRID", "LANE", "NATTIE", "ASTRID", "LANE")
 
 [node name="Interactable" parent="Phone" index="1"]
 InteractionName = "Answer Phone"
@@ -84,8 +129,12 @@ visible = false
 billboard = 2
 texture = ExtResource("4_pvq20")
 
-[node name="Character" parent="." instance=ExtResource("5_186m7")]
+[node name="GameManager" type="Node3D" parent="." node_paths=PackedStringArray("dialogue")]
 transform = Transform3D(2.8875, 0, 0, 0, 2.8875, 0, 0, 0, 2.8875, 1.44436, 1.36863, -3.11847)
+script = ExtResource("5_cje0e")
+dialogue = NodePath("../Player/HUD/Dialogue")
+
+[node name="Character" parent="GameManager" instance=ExtResource("5_186m7")]
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 snap = 0.1
@@ -147,11 +196,30 @@ light_color = Color(0.988235, 0.858824, 0.529412, 1)
 light_energy = 3.9
 omni_range = 9.07215
 
-[node name="Door" parent="." instance=ExtResource("2_6e4j5")]
-transform = Transform3D(-0.402544, 0, 0.0616289, 0, 2.5, 0, -0.863258, 0, -0.028738, 0.390068, 2.6, -4.73227)
+[node name="Door2" type="Node3D" parent="."]
+transform = Transform3D(-0.0769454, 0, 0.997035, 0, 1, 0, -0.997035, 0, -0.0769454, 0.59354, 2.6, -4.30576)
+script = ExtResource("9_lbeer")
 
-[node name="Interactable" parent="Door" index="1"]
+[node name="Hinge" type="Node3D" parent="Door2"]
+transform = Transform3D(-0.0975829, 0, -0.995227, 0, 1, 0, 0.995227, 0, -0.0975829, 0, 0, 0)
+
+[node name="Interactable2" parent="Door2/Hinge" instance=ExtResource("9_htk7c")]
+transform = Transform3D(1, 0, -9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0.677414, 0, -0.0047555)
 InteractionName = "Open/Close"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Door2/Hinge/Interactable2"]
+transform = Transform3D(1.552, 0, 0, 0, 2.67, 0, 0, 0, 0.068, 0, 0, 0)
+mesh = SubResource("BoxMesh_u2qfm")
+surface_material_override/0 = ExtResource("6_shdfa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door2/Hinge/Interactable2"]
+transform = Transform3D(1.552, 0, 0, 0, 2.67, 0, 0, 0, 0.068, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_avunb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Door2"]
+libraries = {
+"": SubResource("AnimationLibrary_85lvj")
+}
 
 [node name="Table" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.015, 0, 0, 0, 0.91, 0, 0, 0, 2.25, 2.81129, 1.86537, -5.91191)
@@ -192,30 +260,15 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.220727, 0)
 shape = SubResource("SphereShape3D_glknc")
 
-[node name="Bowl2" parent="." instance=ExtResource("2_6e4j5")]
-transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.83163, 2.38112, -5.90535)
-visible = false
-
-[node name="Bowl" parent="." instance=ExtResource("2_6e4j5")]
-transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -6.62061)
-visible = false
-
-[node name="Bowl3" parent="." instance=ExtResource("2_6e4j5")]
-transform = Transform3D(0.517275, 0, 0, 0, 0.16, 0, 0, 0, 0.519323, 2.77991, 2.38112, -5.1783)
-visible = false
-
 [connection signal="InteractedWith" from="Phone/Interactable" to="Phone" method="AnswerPhone"]
+[connection signal="DoorClosed" from="Door2" to="GameManager" method="OnDoorClosed"]
+[connection signal="DoorOpened" from="Door2" to="GameManager" method="OnDoorOpened"]
+[connection signal="InteractedWith" from="Door2/Hinge/Interactable2" to="Door2" method="OpenAndClose"]
+[connection signal="animation_finished" from="Door2/AnimationPlayer" to="Door2" method="_on_animation_player_animation_finished"]
 [connection signal="InteractedWith" from="CandyBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [0]]
 [connection signal="InteractedWith" from="RockBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [2]]
 [connection signal="InteractedWith" from="BroccoliBowl" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [1]]
-[connection signal="InteractedWith" from="Bowl2/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [1]]
-[connection signal="InteractedWith" from="Bowl/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [0]]
-[connection signal="InteractedWith" from="Bowl3/Interactable" to="Player/Head/Camera3D/Slingshot" method="SetProjectileType" binds= [2]]
 
 [editable path="Player"]
 [editable path="Player/HUD"]
 [editable path="Phone"]
-[editable path="Door"]
-[editable path="Bowl2"]
-[editable path="Bowl"]
-[editable path="Bowl3"]

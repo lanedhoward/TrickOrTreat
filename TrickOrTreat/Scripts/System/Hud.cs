@@ -32,7 +32,7 @@ public partial class Hud : Control
     public void ShowInteractText(string text)
     {
         InteractText.Visible = true;
-        InteractText.Text = text;
+        InteractText.Text = "[Right Click] " + text;
 
         Crosshair.Texture = InteractCrosshair;
     }
